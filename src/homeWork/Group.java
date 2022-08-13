@@ -5,12 +5,10 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 
-public class Group{
+public class Group {
     private String groupName;
 
     private Student[] students = new Student[10];
-    private int i;
-
 
     public Group(){
     }
@@ -39,7 +37,7 @@ public class Group{
                     break;
                 }
             }
-            if (freeIndex == false) {
+            if (!freeIndex) {
                 throw new GroupOverFlowException("На танцполе нет свободных мест");
             }
         }
@@ -50,9 +48,9 @@ public class Group{
 
     public Student SearchStudentByLastName(String lastName) throws StudentNotFoundException {
         try {
-            for (int i = 0; i < students.length; i++) {
-                if (lastName.equals(students[i].getLastName())) {
-                    return students[i];
+            for (Student student : students) {
+                if (lastName.equals(student.getLastName())) {
+                    return student;
                 }
             }
                 throw new StudentNotFoundException(lastName + " not found");
@@ -67,21 +65,22 @@ public List<Student> SearchNamesakers(String lastName) throws StudentNotFoundExc
     List<Student> nameSakers = new ArrayList<>();
     try {
         for (int j = 0; j < soughtStudents.length; ) {
-            for (int i = 0; i < students.length; i++) {
-                if (students[i] != null) {
-                    if (lastName.equals(students[i].getLastName())) {
-                        soughtStudents[j] = students[i];
+            for (Student student : students) {
+                if (student != null) {
+                    if (lastName.equals(student.getLastName())) {
+                        soughtStudents[j] = student;
                         j++;
                     }
                 }
                 if (soughtStudents[0] == null) {
                     throw new StudentNotFoundException(lastName + " not found");
                 }
-            }break;
             }
-        for (int i = 0; i < soughtStudents.length; i++){
-            if (soughtStudents[i] != null) {
-            nameSakers.add(soughtStudents[i]);
+            break;
+            }
+        for (Student soughtStudent : soughtStudents) {
+            if (soughtStudent != null) {
+                nameSakers.add(soughtStudent);
             }
         }
     }
@@ -106,7 +105,7 @@ public boolean removeStudentById(int id){
     public String toStringNextLineCreation(Student[] students){
         String arrayElement;
         String toStringWithNewLines = "";
-        for (i = 0; i < students.length; i++){
+        for (int i = 0; i < students.length; i++){
             arrayElement = i+1 + ". " + String.valueOf(students[i]);
             toStringWithNewLines = toStringWithNewLines + "\n" + arrayElement;
         }
@@ -115,6 +114,16 @@ public boolean removeStudentById(int id){
     public Student[] sortStudentsByLastName(Student[] students){
         Arrays.sort(students, Comparator.nullsLast(new lastNameCompartator()));
     return students;
+    }
+
+    public List<Student> studentsOfGroupToList(Group group){
+        List <Student> studentsList = new ArrayList<>();
+        for (Student student : students) {
+            if (student != null) {
+                studentsList.add(student);
+            }
+        }
+        return studentsList;
     }
 
     @Override

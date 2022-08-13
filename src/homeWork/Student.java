@@ -35,13 +35,12 @@ public class Student extends Human {
 
     @Override
     public String toString() {
-        return "Student{" +
-                "id: " + id +
+        return "Student {" +
+                "id: " + '\''+ id + '\''+
                 ", groupName: '" + groupName + '\'' +
                 ", name: '" + super.getName() + '\'' +
-                ", lastName: '" + super.getLastName() + '\'' +
-                ", gender: '" + super.getGender() + '\'' +
-                '}';
+                ", lastName: '" + super.getLastName() + '\'' + ", " +
+                super.getGender() + '}';
     }
 
     @Override

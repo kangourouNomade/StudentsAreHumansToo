@@ -1,13 +1,15 @@
 package homeWork;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
 
 public class Main {
     public static final String ANSI_RESET = "\u001B[0m";
     public static final String ANSI_GREEN = "\u001B[32m";
-    public static void main (String[] args) throws GroupOverFlowException, StudentNotFoundException {
-
+    public static void main (String[] args) throws GroupOverFlowException, StudentNotFoundException, IOException {
         Student[] students = new Student[10];
 //  initializing some elements of students array for further testing of code:
 
@@ -18,6 +20,7 @@ public class Main {
 
 //      creating new single student object without appointing to any group
         Student stud1 = new Student(5, "", "Jack", "Daniels", Gender.MALE);
+        System.out.println(stud1.toString());
 
         Group JavaOOP = new Group("JavaOOP", students);
 
@@ -47,6 +50,26 @@ public class Main {
 
         Group JavaStart = new Group ("JavaStart", oldfags);
         Student stud2 = new Student(016, "JavaStart", "Morgan", "Freeman", Gender.MALE);
+
+        //  testing saveGroup2CSV method.
+        GroupFileStorage gfs = new GroupFileStorage();
+        try {
+            gfs.saveGroupToCSV(JavaStart);
+        }catch (FileNotFoundException e){
+            e.printStackTrace();
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+
+//  testing loadGroupFromCSV
+        File file = new File("E:\\JavaStart.csv");
+        Group groupFromFile = gfs.loadGroupFromCSV(file);
+        System.out.println(ANSI_GREEN + "LOADED GROUP FROM THE FILE: " + ANSI_RESET);
+        System.out.println(groupFromFile.toString());
+
+//  testing findFileByGroupName
+        File folder = new File("E:\\");
+        gfs.findFileByGroupName(JavaStart.getGroupName(), folder);
 
 
 //      testing SearchStudentByLastName();
@@ -93,6 +116,15 @@ public class Main {
             System.out.println(student);
             System.out.println();
         }
+//  testing CSVStringConverter
+        System.out.println(ANSI_GREEN + "testing CSV method" + ANSI_RESET);
+        CSVStringConverter CSVString = new CSVStringConverter();
+        String str = CSVString.toStringRepresentation(oldfags[0]);
+        System.out.println(str);
+        Student studentFromString = CSVString.fromStringRepresentation(str);
+        System.out.println(studentFromString.toString());
+
+
 //  testing overriding the methods from class Student in subclass StudentScanner
         StudentScanner stud3 = new StudentScanner(0, null, null, null, Gender.NOTSPECIFIED);
         stud3.setId();
