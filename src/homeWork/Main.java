@@ -51,6 +51,15 @@ public class Main {
         Group JavaStart = new Group ("JavaStart", oldfags);
         Student stud2 = new Student(016, "JavaStart", "Morgan", "Freeman", Gender.MALE);
 
+        //testing equality
+        JavaOOP.addStudent(stud1);
+        JavaOOP.addStudent(stud1);
+        JavaOOP.addStudent(stud1);
+
+        System.out.println(JavaStart.giveMeEqualStudents());
+        System.out.println(JavaOOP.giveMeEqualStudents());
+
+        /*
         //  testing saveGroup2CSV method.
         GroupFileStorage gfs = new GroupFileStorage();
         try {
@@ -148,5 +157,7 @@ public class Main {
 //      by keyboard input object of Student class
         Student stud5 = new StudentScanner();
         System.out.println(stud5.toString());
+        */
         }
+
     }

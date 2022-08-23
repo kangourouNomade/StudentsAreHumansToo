@@ -1,5 +1,7 @@
 package homeWork;
 
+import java.util.Objects;
+
 public class Student extends Human {
     private int id;
     private String groupName;
@@ -71,5 +73,19 @@ public class Student extends Human {
     @Override
     public void setGender(Gender gender) {
         super.setGender(gender);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Student)) return false;
+        if (!super.equals(o)) return false;
+        Student student = (Student) o;
+        return getId() == student.getId() && getGroupName().equals(student.getGroupName());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), getId(), getGroupName());
     }
 }

@@ -1,9 +1,7 @@
 package homeWork;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.List;
+import java.lang.reflect.Field;
+import java.util.*;
 
 public class Group {
     private String groupName;
@@ -28,22 +26,24 @@ public class Group {
 
     public void addStudent(Student student) throws GroupOverFlowException {
         boolean freeIndex = false;
-        try {
-            for (int i = 0; i < students.length; ++i) {
-                if (students[i] == null) {
-                    freeIndex = true;
-                    student.setGroupName(getGroupName());
-                    students[i] = student;
-                    break;
+        if (student.getName() != null & student.getLastName() != null & student.getGender() != null) {
+            try {
+                for (int i = 0; i < students.length; ++i) {
+                    if (students[i] == null) {
+                        freeIndex = true;
+                        student.setGroupName(getGroupName());
+                        students[i] = student;
+                        break;
+                    }
                 }
-            }
-            if (!freeIndex) {
-                throw new GroupOverFlowException("На танцполе нет свободных мест");
+                if (!freeIndex) {
+                    throw new GroupOverFlowException("На танцполе нет свободных мест");
+                }
+            } catch (GroupOverFlowException e) {
+                System.out.println(e.getMessage());
             }
         }
-        catch (GroupOverFlowException e){
-            System.out.println(e.getMessage());
-        }
+        else System.out.println("You cannot add non-fully initialized student to group. Finish initialization first, please");
     }
 
     public Student SearchStudentByLastName(String lastName) throws StudentNotFoundException {
@@ -64,7 +64,7 @@ public List<Student> SearchNamesakers(String lastName) throws StudentNotFoundExc
     Student[] soughtStudents = new Student[10];
     List<Student> nameSakers = new ArrayList<>();
     try {
-        for (int j = 0; j < soughtStudents.length; ) {
+        for (int j = 0; j < soughtStudents.length;) {
             for (Student student : students) {
                 if (student != null) {
                     if (lastName.equals(student.getLastName())) {
@@ -106,7 +106,7 @@ public boolean removeStudentById(int id){
         String arrayElement;
         String toStringWithNewLines = "";
         for (int i = 0; i < students.length; i++){
-            arrayElement = i+1 + ". " + String.valueOf(students[i]);
+            arrayElement = i+1 + ". " + students[i];
             toStringWithNewLines = toStringWithNewLines + "\n" + arrayElement;
         }
     return toStringWithNewLines;}
@@ -116,7 +116,7 @@ public boolean removeStudentById(int id){
     return students;
     }
 
-    public List<Student> studentsOfGroupToList(Group group){
+    public List<Student> studentsOfGroupToList(){
         List <Student> studentsList = new ArrayList<>();
         for (Student student : students) {
             if (student != null) {
@@ -130,5 +130,39 @@ public boolean removeStudentById(int id){
     public String toString() {
         return "Group:" + "\n" + groupName + ":" + "\n" + toStringNextLineCreation(students);
         }
-            }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Group)) return false;
+        Group group = (Group) o;
+        return getGroupName().equals(group.getGroupName()) && Arrays.equals(students, group.students);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = Objects.hash(getGroupName());
+        result = 31 * result + Arrays.hashCode(students);
+        return result;
+    }
+
+    public List giveMeEqualStudents (){
+        List <Student> equalizers = new ArrayList<>();
+        for (int i = 0; i < students.length-1; i++) {
+            for (int j = i+1; j < students.length; j++) {
+                if (students[j] != null && students[i] != null) {
+                        if (students[i].equals(students[j])) {
+                        System.out.println("There is equality between student at position " + i + " " + students[i].getId() + " " + students[i].getName() + " " + students[i].getLastName() + " hashCode " + students[i].hashCode() + " and student at position " + j + " " + students[j].getId() + " " + students[j].getName() + " " + students[j].getLastName() + " hashCode " + students[i].hashCode());
+                        equalizers.add(students[i]);
+                        equalizers.add(students[j]);
+                        }
+                }
+            }
+        }
+        if (equalizers.size() == 0){
+            System.out.println("There is no equal students");
+        }
+        return equalizers;
+    }
+
+}

@@ -1,5 +1,7 @@
 package homeWork;
 
+import java.util.Objects;
+
 public class Human {
     private String name;
     private String lastName;
@@ -45,5 +47,18 @@ public class Human {
                 ", lastName='" + lastName + '\'' +
                 ", gender=" + gender +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Human)) return false;
+        Human human = (Human) o;
+        return getName().equals(human.getName()) && getLastName().equals(human.getLastName()) && getGender() == human.getGender();
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getName(), getLastName(), getGender());
     }
 }

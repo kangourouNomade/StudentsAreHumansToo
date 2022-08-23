@@ -13,7 +13,7 @@ public class GroupFileStorage extends Group {
 
     public void saveGroupToCSV(Group gr) throws IOException {
         File groupCSV = new File("E:\\", gr.getGroupName() + ".csv");
-        List<Student> listOfStudents = gr.studentsOfGroupToList(gr);
+        List<Student> listOfStudents = gr.studentsOfGroupToList();
         Iterator<Student> iterator = listOfStudents.iterator();
         for (boolean i = true; i == iterator.hasNext(); ) {
             Student studentIteration = iterator.next();
@@ -47,11 +47,11 @@ public class GroupFileStorage extends Group {
         for (int i = 0; i < dividedString.length; i++) {
             students[i] = csvStrCon.fromStringRepresentation(dividedString[i]);
         }
-        Group gr = new Group(nameOfGroup, students);
-        return gr;
+
+        return new Group(nameOfGroup, students);
     }
 
-    public File findFileByGroupName(String groupName, File workFolder) {
+    public File findFileByGroupName(String groupName, File workFolder) throws FileNotFoundException {
         if (!workFolder.exists() || !workFolder.isDirectory()) {
             throw new IllegalArgumentException("Directory name is incorrect or directory is absent " + workFolder.getName());
         }
@@ -62,7 +62,7 @@ public class GroupFileStorage extends Group {
                 }
             }
         System.out.println("File " + groupName + ".csv not found");
-        return null;
+        throw new FileNotFoundException();
     }
 }
 
