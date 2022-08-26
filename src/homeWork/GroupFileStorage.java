@@ -1,6 +1,7 @@
 package homeWork;
 
 import java.io.*;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
@@ -42,10 +43,10 @@ public class GroupFileStorage extends Group {
             e.printStackTrace();
         }
         String[] dividedString = stringFromFile.split(System.lineSeparator());
-        Student[] students = new Student[dividedString.length];
+        List<Student> students = new ArrayList<>();
         CSVStringConverter csvStrCon = new CSVStringConverter();
         for (int i = 0; i < dividedString.length; i++) {
-            students[i] = csvStrCon.fromStringRepresentation(dividedString[i]);
+            students.set(i, csvStrCon.fromStringRepresentation(dividedString[i]));
         }
 
         return new Group(nameOfGroup, students);

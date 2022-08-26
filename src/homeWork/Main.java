@@ -3,6 +3,7 @@ package homeWork;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -10,13 +11,13 @@ public class Main {
     public static final String ANSI_RESET = "\u001B[0m";
     public static final String ANSI_GREEN = "\u001B[32m";
     public static void main (String[] args) throws GroupOverFlowException, StudentNotFoundException, IOException {
-        Student[] students = new Student[10];
+        List <Student> students = new ArrayList<>();
 //  initializing some elements of students array for further testing of code:
 
-        students[0] = new Student(1, "JavaOOP", "Michel", "Schumaher", Gender.MALE);
-        students[1] = new Student(2, "JavaOOP", "Anjelina", "Jolly", Gender.FEMALE);
-        students[2] = new Student(3, "JavaOOP", "Lara", "Kroft", Gender.MALE);
-        students[3] = new Student(4, "JavaOOP", "Jim", "EarthWorm", Gender.NOTSPECIFIED);
+        students.set(0, new Student(1, "JavaOOP", "Michel", "Schumaher", Gender.MALE));
+        students.set(1, new Student(2, "JavaOOP", "Anjelina", "Jolly", Gender.FEMALE));
+        students.set(2, new Student(3, "JavaOOP", "Lara", "Kroft", Gender.MALE));
+        students.set(3, new Student(4, "JavaOOP", "Jim", "EarthWorm", Gender.NOTSPECIFIED));
 
 //      creating new single student object without appointing to any group
         Student stud1 = new Student(5, "", "Jack", "Daniels", Gender.MALE);
@@ -36,17 +37,17 @@ public class Main {
 
 //      Creating array of Students with name that differs from "students" to test that this object will be accepted
 //      as field "Student[] students" by the Group Class:
-        Student[] oldfags = new Student[10];
-        oldfags[0] = new Student(6, "JavaStart", "Charles", "Dickkens", Gender.MALE);
-        oldfags[1] = new Student(7, "JavaStart", "Till", "Lindemann", Gender.MALE);
-        oldfags[2] = new Student(8, "JavaStart", "Monica", "Dickkens", Gender.FEMALE);
-        oldfags[3] = new Student(9, "JavaStart", "Roberto", "Carlos", Gender.MALE);
-        oldfags[4] = new Student(10, "JavaStart", "Scotty", "Dickkens", Gender.MALE);
-        oldfags[5] = new Student(11, "JavaStart", "Tarja", "Turunen", Gender.FEMALE);
-        oldfags[6] = new Student(12, "JavaStart", "Placido", "Dickkens", Gender.MALE);
-        oldfags[7] = new Student(13, "JavaStart", "Jeremy", "Clarkson", Gender.MALE);
-        oldfags[8] = new Student(14, "JavaStart", "Margaret", "Thatcher", Gender.FEMALE);
-        oldfags[9] = new Student(15, "JavaStart", "Deborah", "Chow", Gender.FEMALE);
+        List <Student> oldfags = new ArrayList<>(10);
+        oldfags.set(0, new Student(6, "JavaStart", "Charles", "Dickkens", Gender.MALE));
+        oldfags.set(1, new Student(7, "JavaStart", "Till", "Lindemann", Gender.MALE));
+        oldfags.set(2, new Student(8, "JavaStart", "Monica", "Dickkens", Gender.FEMALE));
+        oldfags.set(3, new Student(9, "JavaStart", "Roberto", "Carlos", Gender.MALE));
+        oldfags.set(4, new Student(10, "JavaStart", "Scotty", "Dickkens", Gender.MALE));
+        oldfags.set(5, new Student(11, "JavaStart", "Tarja", "Turunen", Gender.FEMALE));
+        oldfags.set(6, new Student(12, "JavaStart", "Placido", "Dickkens", Gender.MALE));
+        oldfags.set(7, new Student(13, "JavaStart", "Jeremy", "Clarkson", Gender.MALE));
+        oldfags.set(8, new Student(14, "JavaStart", "Margaret", "Thatcher", Gender.FEMALE));
+        oldfags.set(9, new Student(15, "JavaStart", "Deborah", "Chow", Gender.FEMALE));
 
         Group JavaStart = new Group ("JavaStart", oldfags);
         Student stud2 = new Student(016, "JavaStart", "Morgan", "Freeman", Gender.MALE);
@@ -158,6 +159,31 @@ public class Main {
         Student stud5 = new StudentScanner();
         System.out.println(stud5.toString());
         */
+
+        //Task 1 from Generics and Collections lecture
+        //testing toDoSmthngMethod;
+        Main.toDoSmthngMethod();
+
+        }
+        public static void toDoSmthngMethod (){
+        List listOfTen = new ArrayList();
+        listOfTen.add("one");
+        listOfTen.add(2);
+        listOfTen.add('t');
+        listOfTen.add(0.234);
+        listOfTen.add(32 < 31);
+        listOfTen.add(11 != 0011);
+        listOfTen.add(Integer.parseInt("0110", 2));
+        listOfTen.add(listOfTen.get(2));
+        listOfTen.add("nine");
+        listOfTen.add(9, 10);
+            System.out.println(listOfTen);
+        listOfTen.remove(0);
+            System.out.println(listOfTen);
+        listOfTen.remove(0);
+            System.out.println(listOfTen);
+        listOfTen.remove(listOfTen.size()-1);
+            System.out.println(listOfTen);
         }
 
     }

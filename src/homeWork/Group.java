@@ -1,17 +1,16 @@
 package homeWork;
 
-import java.lang.reflect.Field;
 import java.util.*;
 
 public class Group {
     private String groupName;
 
-    private Student[] students = new Student[10];
+    private List <Student> students = new ArrayList<>(10);
 
     public Group(){
     }
 
-    public Group(String groupName, Student[] students) {
+    public Group(String groupName, List<Student> students) {
         this.groupName = groupName;
         this.students = students;
     }
@@ -25,18 +24,13 @@ public class Group {
     }
 
     public void addStudent(Student student) throws GroupOverFlowException {
-        boolean freeIndex = false;
         if (student.getName() != null & student.getLastName() != null & student.getGender() != null) {
             try {
-                for (int i = 0; i < students.length; ++i) {
-                    if (students[i] == null) {
-                        freeIndex = true;
+                if (students.size() < 10){
                         student.setGroupName(getGroupName());
-                        students[i] = student;
-                        break;
+                        students.add(student);
                     }
-                }
-                if (!freeIndex) {
+                if (students.size() >= 10) {
                     throw new GroupOverFlowException("На танцполе нет свободных мест");
                 }
             } catch (GroupOverFlowException e) {
@@ -91,28 +85,28 @@ public List<Student> SearchNamesakers(String lastName) throws StudentNotFoundExc
     }
 
 public boolean removeStudentById(int id){
-        for (int i = 0; i < students.length; i++) {
-            if (students[i] != null) {
-                if (id == students[i].getId()) {
-                    students[i] = null;
+        for (int i = 0; i < students.size(); i++) {
+                if (id == students.get(i).getId()) {
+                    students.remove(i);
+                    System.out.println("Student removed");
                     return true;
                 }
-            }
         }
+    System.out.println("There is no student with id: " + id + " in this group");
         return false;
     }
 
-    public String toStringNextLineCreation(Student[] students){
+    public String toStringNextLineCreation(List <Student> students){
         String arrayElement;
         String toStringWithNewLines = "";
-        for (int i = 0; i < students.length; i++){
-            arrayElement = i+1 + ". " + students[i];
+        for (int i = 0; i < students.size(); i++){
+            arrayElement = i+1 + ". " + students.get(i);
             toStringWithNewLines = toStringWithNewLines + "\n" + arrayElement;
         }
     return toStringWithNewLines;}
 
-    public Student[] sortStudentsByLastName(Student[] students){
-        Arrays.sort(students, Comparator.nullsLast(new lastNameCompartator()));
+    public List <Student> sortStudentsByLastName(List <Student> students){
+        students.sort(Comparator.nullsLast(new LastNameCompartator()));
     return students;
     }
 
@@ -136,25 +130,25 @@ public boolean removeStudentById(int id){
         if (this == o) return true;
         if (!(o instanceof Group)) return false;
         Group group = (Group) o;
-        return getGroupName().equals(group.getGroupName()) && Arrays.equals(students, group.students);
+        return getGroupName().equals(group.getGroupName()) && students.equals(group.students);
     }
 
     @Override
     public int hashCode() {
         int result = Objects.hash(getGroupName());
-        result = 31 * result + Arrays.hashCode(students);
+        result = 31 * result + students.hashCode();
         return result;
     }
 
     public List giveMeEqualStudents (){
         List <Student> equalizers = new ArrayList<>();
-        for (int i = 0; i < students.length-1; i++) {
-            for (int j = i+1; j < students.length; j++) {
-                if (students[j] != null && students[i] != null) {
-                        if (students[i].equals(students[j])) {
-                        System.out.println("There is equality between student at position " + i + " " + students[i].getId() + " " + students[i].getName() + " " + students[i].getLastName() + " hashCode " + students[i].hashCode() + " and student at position " + j + " " + students[j].getId() + " " + students[j].getName() + " " + students[j].getLastName() + " hashCode " + students[i].hashCode());
-                        equalizers.add(students[i]);
-                        equalizers.add(students[j]);
+        for (int i = 0; i < students.size()-1; i++) {
+            for (int j = i+1; j < students.size(); j++) {
+                if (students.get(j) != null && students.get(i) != null) {
+                        if (students.get(j).equals(students.get(i))) {
+                        System.out.println("There is equality between student at position " + i + " " + students.get(i).getId() + " " + students.get(i).getName() + " " + students.get(i).getLastName() + " hashCode " + students.get(i).hashCode() + " and student at position " + j + " " + students.get(j).getId() + " " + students.get(j).getName() + " " + students.get(j).getLastName() + " hashCode " + students.get(j).hashCode());
+                        equalizers.add(students.get(i));
+                        equalizers.add(students.get(j));
                         }
                 }
             }
